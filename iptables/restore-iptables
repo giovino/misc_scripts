@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Name         : restore-iptables.sh
+#
+# Usage        : This script needs to be placed in /etc/network/if-pre-up.d/
+#                This script needs to be executable and owned by root
+#                                e.g.
+#                                chmod +x restore-iptables.sh
+#                chown root:root restore-iptables.sh
+#
+# Arguments    : None
+#
+# Description  : Load iptables rules before interfaces are brought online
+#                This ensures that we are always protected by the firewall
+#
+# Notes        : If bad rules are inadvertently (or purposely) saved it could block
+#                access to the server except via the serial tty interface.
+#
+# Created by   : Gabriel Iovino
+#
+# Reference    : http://www.debian-administration.org/articles/615
+#
+# Created      : 03/02/2010
+#
+# Modified     :
+#
+# Version      : .95
+
+RESTORE=/sbin/iptables-restore
+IPSTATE=/etc/iptables/iptables.active
+
+test -x $RESTORE || exit 0
+test -s $IPSTATE || exit 0
+
+# Now we are ready to restore the tables
+$RESTORE < $IPSTATE
