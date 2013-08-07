@@ -82,7 +82,7 @@ done
 # LAN SERVICES - UDP
 for LAN in $LANS; do
  for PORT in $LANS_UDP; do
-   echo "ALLOWING TCP SERVICE: $PORT for LAN: $LAN"
+   echo "ALLOWING UDP SERVICE: $PORT for LAN: $LAN"
    iptables -A SERVICES -p udp --dport $PORT -s $LAN -m state --state NEW -j ACCEPT
  done
 done
